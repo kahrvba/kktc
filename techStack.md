@@ -15,9 +15,11 @@ Frameworks:
 
 Teamwork: Via whatsapp and git branches
 
+§
+
 Ahmed: Main
 Salah : Frontend
--     : backend
+imane     : backend
 
 tips:
 - Dont push until its fully tested
