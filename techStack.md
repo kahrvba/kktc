@@ -9,7 +9,7 @@ Frameworks:
 	- Hosting: Vercel ( the best for serve nextjs apps)
 	- Domain: CLoundflare, (basedomain is alemdarteknik.com)
 	
-
+f
 	- Mobile: frontend: ReactNative with expo ( more native api's availabilty, syntax similarity with web dev)
 	- Backend: supabase BaaS backen-as-a-service
 
