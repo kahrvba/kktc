@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   HiOutlineUser,
   HiOutlineClipboardList,
@@ -8,40 +9,61 @@ import {
 } from "react-icons/hi";
 
 const ACTIONS = [
-  { title: "Hire", icon: HiOutlineUser, color: "text-sky-600" },
-  { title: "Build Profile", icon: HiOutlineClipboardList, color: "text-amber-500" },
-  { title: "Get what you need", icon: HiOutlineSparkles, color: "text-emerald-500" },
+  {
+    key: "action_hire",
+    icon: HiOutlineUser,
+    bg: "bg-sky-50",
+    iconColor: "text-sky-600",
+    ring: "ring-sky-400",
+  },
+  {
+    key: "action_profile",
+    icon: HiOutlineClipboardList,
+    bg: "bg-amber-50",
+    iconColor: "text-amber-500",
+    ring: "ring-amber-400",
+  },
+  {
+    key: "action_need",
+    icon: HiOutlineSparkles,
+    bg: "bg-emerald-50",
+    iconColor: "text-emerald-500",
+    ring: "ring-emerald-400",
+  },
 ] as const;
 
 export default function ActionCards() {
-  const [selectedAction, setSelectedAction] = useState<string>("Hire");
+  const t = useTranslations();
+  const [selected, setSelected] = useState<string>("action_hire");
 
   return (
-    <div className="mt-8 grid grid-cols-3 gap-3">
-      {ACTIONS.map(({ title, icon: Icon, color }) => {
-        const active = selectedAction === title;
+    <div className="flex gap-3">
+      {ACTIONS.map(({ key, icon: Icon, bg, iconColor, ring }) => {
+        const active = selected === key;
         return (
           <button
-            key={title}
+            key={key}
             type="button"
-            onClick={() => setSelectedAction(title)}
-            className={`flex flex-col items-center gap-2 text-sm font-semibold transition ${
-              active ? "opacity-100" : "opacity-60"
+            onClick={() => setSelected(key)}
+            className={`flex flex-1 flex-col items-center gap-3 rounded-2xl p-4 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 ${ring} ${bg} ${
+              active
+                ? `ring-2 ${ring} shadow-md scale-[1.03]`
+                : "ring-1 ring-slate-200 hover:shadow-sm hover:scale-[1.01]"
             }`}
           >
             <span
-              className={`flex h-12 w-12 items-center justify-center ${color} transition ${
-                active ? "opacity-100" : "opacity-60"
+              className={`flex h-11 w-11 items-center justify-center rounded-xl ${
+                active ? "bg-white shadow-sm" : "bg-white/60"
               }`}
             >
-              <Icon className="h-6 w-6" />
+              <Icon className={`h-5 w-5 ${iconColor}`} />
             </span>
             <span
-              className={`text-center text-xs leading-5 ${color} transition ${
-                active ? "opacity-100" : "opacity-60"
+              className={`text-center text-xs font-semibold leading-tight ${
+                active ? "text-slate-900" : "text-slate-500"
               }`}
             >
-              {title}
+              {t(key)}
             </span>
           </button>
         );

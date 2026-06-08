@@ -2,11 +2,19 @@
 
 import { useState } from "react";
 import { HiLocationMarker } from "react-icons/hi";
+import { useRouter, usePathname } from "../../i18n/navigation";
+import { useLocale } from "next-intl";
 
 export default function Header() {
-  const [language, setLanguage] = useState<"en" | "tr">("en");
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleLocaleChange = (newLocale: string) => {
+    router.replace(pathname, { locale: newLocale as "en" | "tr" });
+  };
 
   const attachLocation = () => {
     if (!navigator?.geolocation) {
@@ -50,9 +58,9 @@ export default function Header() {
           <div className="relative inline-flex">
             <select
               title="Select language"
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as "en" | "tr")}
-              className="appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300"
+              value={locale}
+              onChange={(e) => handleLocaleChange(e.target.value)}
+              className="appearance-none rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-900 transition hover:border-slate-300 cursor-pointer"
             >
               <option value="en">EN</option>
               <option value="tr">TR</option>
@@ -62,7 +70,8 @@ export default function Header() {
           <button
             type="button"
             onClick={attachLocation}
-            className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-700 transition hover:bg-slate-50"
+            disabled={loading}
+            className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white px-3 py-2 text-slate-700 transition hover:bg-slate-50 disabled:opacity-50"
             aria-label="Attach location"
           >
             <HiLocationMarker className="h-5 w-5" />
